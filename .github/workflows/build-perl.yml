@@ -1,0 +1,32 @@
+name: Build Perl Executable
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Strawberry Perl
+        run: |
+          choco install strawberryperl -y
+          echo "C:\Strawberry\perl\bin" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+          echo "C:\Strawberry\c\bin" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
+
+      - name: Install PAR::Packer
+        run: cpanm PAR::Packer
+
+      - name: Build Executable
+        run: pp -M Sub::Util -M Scalar::Util -o myscript.exe myscript.pl
+
+      - name: Upload Executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: perl-executable
+          path: myscript.exe
