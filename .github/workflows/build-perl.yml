@@ -18,7 +18,13 @@ jobs:
           choco install strawberryperl -y
           echo "C:\Strawberry\perl\bin" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
           echo "C:\Strawberry\c\bin" | Out-File -Append -Encoding utf8 $env:GITHUB_PATH
-
+          
+      - name: Install required Perl modules
+        run: |
+          cpanm LWP::UserAgent
+          cpanm LWP::Protocol::https
+          cpanm IO::Socket::SSL
+          
       - name: Install PAR::Packer
         run: cpanm PAR::Packer
 
