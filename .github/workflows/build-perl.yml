@@ -33,7 +33,7 @@ jobs:
         run: cpanm PAR::Packer
 
       - name: Build Executable
-        run: pp -M Sub::Util -M Scalar::Util -o zap2xml-revived.exe zap2xml.pl
+        run: pp -M IO::Socket::SSL -M LWP::Protocol::https -M Net::HTTPS -M Sub::Util -M Scalar::Util -o zap2xml-revived.exe zap2xml.pl
 
       - name: Upload Executable
         uses: actions/upload-artifact@v4
